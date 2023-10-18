@@ -16,14 +16,13 @@ function NewTransactionRow(props) {
     const [price, setPrice] = useState(props.price);
     let inventoryToSuggest = []; 
 
-    useEffect(() => {
-        setFilter(''); 
-        setItemID(props.itemID); 
-        setName(props.name); 
-        setQuantity(props.quantity);
-        setPrice(props.price); 
-    }, [props.submitted])
-
+    // useEffect(() => {
+    //     setFilter(''); 
+    //     setItemID(props.itemID); 
+    //     setName(props.name); 
+    //     setQuantity(props.quantity);
+    //     setPrice(props.price); 
+    // }, [props.submitted])
 
     //autosuggestion feature
     function searchIsValidName() {

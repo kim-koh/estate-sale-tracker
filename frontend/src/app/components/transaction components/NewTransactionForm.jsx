@@ -86,7 +86,7 @@ function NewTransactionForm() {
             })
         }
        
-    }, [openModal])
+    }, [openModal, rowIndex, newItem])
 
     function calculateTotalPrice() {
         let total = 0; 

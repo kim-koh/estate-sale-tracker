@@ -1,12 +1,5 @@
-import styles from "./styles/page.module.css";
-import axios from 'axios';
-
 import Dashboard from './home/page.jsx';
 import LoginForm from './login/page.jsx';
-import {InventoryContextProvider} from "./context/InventoryContext.jsx"
-import { EditItemModalContextProvider } from "./context/EditItemModalContext"
-import { TransactionContextProvider } from "./context/TransactionsContext";
-import {NewItemModalContextProvider} from './context/NewItemModalContext'
 
 // async function validatePin() {
 //   const res = await axios.get( INSERT API ENDPT TO VALIDATE DEVICE W/ PIN); 
@@ -23,17 +16,9 @@ export default function Home() {
     return <LoginForm/>
   } if (true) { //user has entered pin and is logged in
     return (
-      <InventoryContextProvider>
-        <TransactionContextProvider>
-        <EditItemModalContextProvider>
-        <NewItemModalContextProvider>
           <main>
             <Dashboard/>
           </main>
-          </NewItemModalContextProvider>
-        </EditItemModalContextProvider>
-        </TransactionContextProvider>
-      </InventoryContextProvider>
     )
   }
   
