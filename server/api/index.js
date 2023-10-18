@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
 
-import inventoryRoutes from "./routes/itemInventory.js";
+import inventoryRoutes from './routes/itemInventory.js'
 import transactionRoutes from "./routes/transactions.js"; 
 import reservationRoutes from "./routes/reservedItems.js"
 
