@@ -6,7 +6,7 @@ import styles from '../../styles/Form.module.css'
 import { useInventoryContext } from "../../hooks/useInventoryContext";
 import { useNewItemModalContext } from "../../hooks/useNewItemModalContext";
 
-axios.defaults.baseURL = "http://localhost:4000"
+axios.defaults.baseURL = "https://estate-sale-tracker-server-44fn1d2by-kim-koh.vercel.app"
 
 function NewItemForm() {
     const {inventory, dispatch} = useInventoryContext();

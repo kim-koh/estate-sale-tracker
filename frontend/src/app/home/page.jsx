@@ -14,7 +14,7 @@ import CardsContainer from '../components/CardsContainer.jsx';
 import Form from '../components/Form.jsx'
 import { useNewItemModalContext } from "../hooks/useNewItemModalContext.jsx";
 
-axios.defaults.baseURL = "http://localhost:4000"
+axios.defaults.baseURL = "https://estate-sale-tracker-server-44fn1d2by-kim-koh.vercel.app"
 
 function Dashboard() {
     const {inventory, dispatch} = useInventoryContext();
