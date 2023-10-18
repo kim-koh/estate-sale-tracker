@@ -4,8 +4,8 @@ import { useModalContext } from '../../hooks/useEditItemModalContext';
 import { useInventoryContext } from '../../hooks/useInventoryContext';
 import { useTransactionContext } from '../../hooks/useTransactionContext';
 
-import editIcon from '../../../../public/icons8-edit-24 (1).png';
-import trashIcon from '../../../../public/icons8-trash-24.png';
+import editIcon from '../../public/icons8-edit-24 (1).png';
+import trashIcon from '../../public/icons8-trash-24.png';
 
 function TransactionCard({transaction}) {
     const {modalDispatch} = useModalContext();
