@@ -1,7 +1,8 @@
 import express from "express"; 
 import {
     getAllTransactions,
-    createTransaction
+    createTransaction,
+    editTransaction
 } from '../controllers/transactionControllers.js'
 
 const router = express.Router(); 
@@ -15,9 +16,7 @@ router.get("/:id", (req, res) => {
 
 router.post("/", createTransaction);
 
-router.patch("/:id", (req, res) => {
-    res.send("Editing an existing transaction")
-});
+router.patch("/:id", editTransaction);
 
 router.delete("/:id", (req, res) => {
     res.send ("Removing a transaction from sale history")

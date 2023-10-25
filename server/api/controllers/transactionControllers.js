@@ -7,8 +7,8 @@ const getAllTransactions = async(req, res) => {
     try {
         const transactions = await transactionModel.find({}).sort({createdAt: -1});
         res.status(200).json(transactions)
-    } catch (error) {
-        res.status(400).json({error: error.message})
+    } catch (err) {
+        res.status(400).json({error: err.message})
     }
 };
 
@@ -43,14 +43,26 @@ const createTransaction = async(req, res) => {
     transactionModel.create({purchaseInfo, totalPrice, formOfPayment})
         .then(response => 
             res.status(200).json(response))
-        .catch(error => 
-            res.status(400).json({error: error.message})
+        .catch(err => 
+            res.status(400).json({error: err.message})
         )
 };
 
 //patch existing transaction
 const editTransaction = async(req, res) => {
-    const id = req.params._id
+    console.log("This is the edit transactions route")
+    console.log(req.body); 
+    // try {
+    //     const updatedTransaction = await transactionModel.findByIdAndUpdate(req.params.id, {...req.body}, {new: true});
+    //     if (!updatedTransaction) {
+    //         res.status(400).json({error: 'No item with this id in the database'});
+    //     } else {
+    //         res.status(200).json(updatedTransaction)
+    //     };
+    // } catch (err) {
+    //     res.status(400).json({error: err.message})
+    // }
+    
 }
 
 //delete transaction
@@ -58,4 +70,5 @@ const editTransaction = async(req, res) => {
 export {
     getAllTransactions,
     createTransaction,
+    editTransaction,
 }

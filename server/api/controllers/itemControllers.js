@@ -20,8 +20,8 @@ const getAllItems = async(req, res) => {
             }
         });  
         res.status(200).json(inventory); 
-    } catch (error) {
-        res.status(400).json({error: error.message});
+    } catch (err) {
+        res.status(400).json({error: err.message});
     }
     
 };
@@ -78,8 +78,8 @@ const editItem = async(req, res) => {
         } else {
             res.status(200).json(updatedItem)
         };
-    } catch (error) {
-        res.status(400).json({error: error.message});
+    } catch (err) {
+        res.status(400).json({error: err.message});
     }
 }
 
@@ -93,8 +93,8 @@ const deleteItem = async(req, res) => {
         } else {
             res.status(200).json(item); 
         }
-    } catch (error) {
-        res.json({error: error.message});
+    } catch (err) {
+        res.json({error: err.message});
     }
 }
 
