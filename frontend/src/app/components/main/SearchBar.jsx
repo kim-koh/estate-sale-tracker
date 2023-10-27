@@ -1,8 +1,8 @@
 import Image from "next/image.js";
-import styles from '../styles/SearchBar.module.css'
+import styles from '../../styles/SearchBar.module.css'
 
-import searchIcon from '../public/icons8-search-24.png';
-import sortIcon from '../public/icons8-sort-24.png'; 
+import searchIcon from '../../public/icons8-search-24.png';
+import sortIcon from '../../public/icons8-sort-24.png'; 
 
 function SearchBar(props) {
     return(

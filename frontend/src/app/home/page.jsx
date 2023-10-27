@@ -6,15 +6,17 @@ import {useInventoryContext} from "../hooks/useInventoryContext.jsx";
 import {useTransactionContext} from "../hooks/useTransactionContext.jsx"
 
 import EditItemModal from "../components/inventory components/EditItemModal.jsx";
+import EditTransactionModal from '../components/transaction components/EditTransactionModal.jsx'
 import NewItemModal from '../components/transaction components/nt form components/NewItemModal.jsx'
-import SaleHeader from "../components/SaleHeader.jsx";
-import SummaryStats from '../components/SummaryStats.jsx'
-import SearchBar from '../components/SearchBar.jsx';
-import CardsContainer from '../components/CardsContainer.jsx';
-import Form from '../components/Form.jsx'
+import SaleHeader from "../components/main/SaleHeader.jsx";
+import SummaryStats from '../components/main/SummaryStats.jsx'
+import SearchBar from '../components/main/SearchBar.jsx';
+import CardsContainer from '../components/main/CardsContainer.jsx';
+import Form from '../components/main/Form.jsx'
 import { useNewItemModalContext } from "../hooks/useNewItemModalContext.jsx";
 
-axios.defaults.baseURL = "https://estate-sale-tracker-server-44fn1d2by-kim-koh.vercel.app"
+//axios.defaults.baseURL = `https://estate-sale-tracker-server.vercel.app`
+axios.defaults.baseURL = 'http://localhost:4000'
 
 function Dashboard() {
     const {inventory, dispatch} = useInventoryContext();
@@ -74,10 +76,13 @@ function Dashboard() {
     if (searchTerm === '') {
         inventoryToDisplay = inventory; 
     } else if (searchIsValidCode()) {
+        console.log("search is code")
         inventoryToDisplay = inventory.filter((item) => item.code.toLowerCase().includes(searchTerm));
     } else if (searchIsValidType()) {
+        console.log("search is type")
         inventoryToDisplay = inventory.filter((item) => item.type.toLowerCase().includes(searchTerm))
     } else if (searchIsValidName()) {
+        console.log("search is name")
         inventoryToDisplay = inventory.filter((item) => item.name.toLowerCase().replace(/\s+/g, '').includes(searchTerm));
     } else {
         inventoryToDisplay = []; 
@@ -101,6 +106,7 @@ function Dashboard() {
     return( 
         <div className="main-container">
             <EditItemModal/>
+            <EditTransactionModal/>
             <NewItemModal/>
             <SaleHeader/>
             <div className="information-container">

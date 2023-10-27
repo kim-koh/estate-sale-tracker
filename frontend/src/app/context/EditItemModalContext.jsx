@@ -22,7 +22,7 @@ export function editItemModalReducer(prevState, action) {
                 }
             }; 
         default: 
-            return prevState
+            return prevState;
     } 
 }
 

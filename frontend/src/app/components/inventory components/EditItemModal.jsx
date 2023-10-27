@@ -1,8 +1,8 @@
 'use client'
 import axios from "axios"; 
+import { useState, useEffect } from "react";
 
 import Styles from "../../styles/EditItemModal.module.css"
-import { useState, useEffect } from "react";
 import { useInventoryContext } from "../../hooks/useInventoryContext";
 import { useModalContext } from "../../hooks/useEditItemModalContext"
 
@@ -50,8 +50,8 @@ function EditItemModal() {
                 dispatch({type: 'EDIT_ITEM', payload: newItem});
                 modalDispatch({type: 'CLOSE_MODAL'});
             })
-            .catch((error) => {
-                const errMessage = error.response.data;
+            .catch((err) => {
+                const errMessage = err.response.data;
                 setError(errMessage.error);  
             })
     }

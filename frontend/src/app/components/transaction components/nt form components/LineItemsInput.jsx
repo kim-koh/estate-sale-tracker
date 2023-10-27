@@ -1,8 +1,11 @@
 import NewTransactionRow from './NewTransactionRow';
 import styles from '../../../styles/LineItemsInput.module.css'
 import formStyles from '../../../styles/Form.module.css'
+import { useEditTransactionModalContext } from '../../../hooks/useEditTransactionModalContext'
 
 function LineItemsInput(props) {
+    const {state, ETModalDispatch} = useEditTransactionModalContext();
+    const {ETModalOpen, transactionData} = state; 
     const purchaseInfo = props.purchaseInfo;
     const totalPrice = props.totalPrice; 
     
@@ -23,8 +26,8 @@ function LineItemsInput(props) {
                             index = {index}
                             itemID = {lineItem.itemID}
                             name = {lineItem.name}
-                            quantity = {parseInt(lineItem.quantity)}
-                            price = {parseFloat(lineItem.price)}
+                            quantity = {lineItem.quantity}
+                            price = {lineItem.price}
                             handleAdd = {props.addLineItem}
                             updatePurchaseInfo = {props.updatePurchaseInfo}
                             isLastRow = {index == purchaseInfo.length -1}
@@ -64,11 +67,14 @@ function LineItemsInput(props) {
                 </div>
             </div>
 
-            <button 
-                className={`${styles.contBtn}`}
-                type="button"
-                onClick={props.completeSection}
-            >↓ Continue ↓</button>
+            {ETModalOpen ? null : 
+                <button 
+                    className={`${styles.contBtn}`}
+                    type="button"
+                    onClick={props.completeSection}
+                >↓ Continue ↓</button>
+            }
+            
             
         </div>
     )

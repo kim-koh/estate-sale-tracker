@@ -6,8 +6,6 @@ import { useTransactionContext } from "../../hooks/useTransactionContext";
 import LineItemsInput from '../transaction components/nt form components/LineItemsInput'
 import { useNewItemModalContext } from "@/app/hooks/useNewItemModalContext";
 
-axios.defaults.baseURL = "https://estate-sale-tracker-server-44fn1d2by-kim-koh.vercel.app"
-
 function NewTransactionForm() {
     const [error, setError] = useState(null); 
     const {transactionDispatch} = useTransactionContext(); 
@@ -125,7 +123,6 @@ function NewTransactionForm() {
                     applyDiscount = {applyDiscount}
                     completeSection = {completeSection1}
                     itemsAreFinalized={itemsAreFinalized}
-                    
                     submitted = {submitted}
                 />
                 
@@ -179,8 +176,7 @@ function NewTransactionForm() {
                 {error && <div className={styles.error}>Error: {error}</div>}
             </form>
         </div>
-    )
-    
+    ) 
 }
 
 export default NewTransactionForm;

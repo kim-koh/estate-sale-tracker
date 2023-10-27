@@ -1,3 +1,4 @@
+import item from "../models/itemForSale.js";
 import itemModel from "../models/itemForSale.js";
 import transactionModel from "../models/transaction.js";
 import mongoose from "mongoose";
@@ -50,19 +51,35 @@ const createTransaction = async(req, res) => {
 
 //patch existing transaction
 const editTransaction = async(req, res) => {
-    console.log("This is the edit transactions route")
-    console.log(req.body); 
-    // try {
-    //     const updatedTransaction = await transactionModel.findByIdAndUpdate(req.params.id, {...req.body}, {new: true});
-    //     if (!updatedTransaction) {
-    //         res.status(400).json({error: 'No item with this id in the database'});
-    //     } else {
-    //         res.status(200).json(updatedTransaction)
-    //     };
-    // } catch (err) {
-    //     res.status(400).json({error: err.message})
-    // }
-    
+    const {newInfo, stockInfo} = req.body; 
+
+    transactionModel.findByIdAndUpdate(req.params.id, {...newInfo}, {new: true}) 
+        .then(updatedTransaction => {
+            if (!updatedTransaction) {
+                res.status(400).json({error: 'No item with this id in the database'});
+            } else {
+                try {
+                    stockInfo.forEach(x => {
+                        itemModel.findByIdAndUpdate(x.id, {stock: x.newStock})
+                            .then(response => {
+                                if (!response) {
+                                    res.status(400).json({error: `Stock of item with id ${x.id} failed to update`})
+                                }
+                            })
+                            .catch(err => {
+                                res.status(400).json({error: err.message})
+                            })
+                    })
+                    res.status(200).json(updatedTransaction)
+                }
+                catch (err) {
+                    res.status(400).json({error: err.message})
+                }
+            }
+        })
+        .catch(err => {
+            res.status(400).json({error: err.message})
+        })  
 }
 
 //delete transaction

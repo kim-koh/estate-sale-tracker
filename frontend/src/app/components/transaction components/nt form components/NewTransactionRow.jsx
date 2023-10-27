@@ -1,13 +1,12 @@
-import { use, useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import styles from '../../../styles/Form.module.css';
 import { useInventoryContext } from "../../../hooks/useInventoryContext";
 import { useNewItemModalContext} from '../../../hooks/useNewItemModalContext';
 
 function NewTransactionRow(props) {
-    const {inventory, dispatch} = useInventoryContext(); 
-    const {state, modalDispatch} = useNewItemModalContext();
-    const {openModal, newItem} = state
+    const {inventory} = useInventoryContext(); 
+    const {modalDispatch} = useNewItemModalContext();
 
     const [filter, setFilter] = useState('');
     const [itemID, setItemID] = useState(props.itemID);

@@ -40,6 +40,12 @@ export function inventoryReducer(prevState, action) {
         case 'DELETE_ITEM':
             const updatedInventory = [...prevState.inventory].filter((item) => item.code != action.payload.code)
             return {inventory: updatedInventory}
+        case 'UPDATE_STOCK':
+            const newStockInventory = [...prevState.inventory]
+            action.payload.forEach(item => {
+                const searchIndex = [...prevState.inventory].findIndex(i => i._id === item.id);
+                newStockInventory[searchIndex].stock = item.newStock
+            })
         default:
             return prevState; 
     }

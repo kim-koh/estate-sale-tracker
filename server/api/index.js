@@ -20,11 +20,14 @@ app.use((req, rest, next) => {
 }); 
 
 app.use("/api/:collection", (req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+    );
     if (req.params.collection === "inventory") {
-        console.log("inventory route hit")
         inventoryRoutes(req, res, next); 
     } if (req.params.collection === "transaction") {
-        console.log("transction route hit")
         transactionRoutes(req, res, next); 
     } else if (req.params.collection === "reservation"){
         reservationRoutes(req, res, next); 

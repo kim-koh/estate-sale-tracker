@@ -1,6 +1,6 @@
-import NewItemForm from "./inventory components/NewItemForm";
-import NewTransactionForm from './transaction components/NewTransactionForm'
-import NewReservationForm from './reservation components/NewReservationForm'
+import NewItemForm from "../inventory components/NewItemForm";
+import NewTransactionForm from '../transaction components/NewTransactionForm'
+import NewReservationForm from '../reservation components/NewReservationForm'
 
 function Form({view}) {
     if (view === 'inventory') {

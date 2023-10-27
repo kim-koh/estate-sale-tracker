@@ -1,4 +1,4 @@
-import Styles from "../styles/SaleHeader.module.css"
+import Styles from "../../styles/SaleHeader.module.css"
 
 function SaleHeader() {
     return(
