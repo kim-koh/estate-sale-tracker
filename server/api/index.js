@@ -20,7 +20,7 @@ app.use((req, rest, next) => {
 }); 
 
 app.use("/api/:collection", (req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "https://estate-sale-tracker-frontend-git-master-kim-koh.vercel.app");
+    res.setHeader("Access-Control-Allow-Origin", "https://estate-sale-tracker-frontend.vercel.app");
     //OR http://localhost:3000 for testing
     res.header(
         "Access-Control-Allow-Headers",
