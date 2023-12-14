@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useInventoryContext } from '../../hooks/useInventoryContext';
 import { useTransactionContext } from '../../hooks/useTransactionContext';
 import { useEditTransactionModalContext } from '../../hooks/useEditTransactionModalContext';
+import axios from 'axios';
 
 import editIcon from '../../public/icons8-edit-24 (1).png';
 import trashIcon from '../../public/icons8-trash-24.png';
@@ -10,28 +11,43 @@ import trashIcon from '../../public/icons8-trash-24.png';
 function TransactionCard({transactionIndex}) {
     const {state, ETModalDispatch} = useEditTransactionModalContext();
     const {openModal, transactionData} = state
-    const {inventory} = useInventoryContext(); 
-    const {transactions} = useTransactionContext(); 
+    const {inventory, dispatch} = useInventoryContext(); 
+    const {transactions, transactionDispatch} = useTransactionContext(); 
     const thisTransaction = transactions[transactionIndex];
 
     function editTransaction() {
         ETModalDispatch({type: 'OPEN_MODAL', payload: thisTransaction})
     }
 
-    // function deleteItem() {
-    //     const shouldDelete = confirm("Are you sure you want to delete this item?")
+    function deleteTransaction() {
+        const shouldDelete = confirm("Are you sure you want to delete this item?")
 
-    //     if (shouldDelete) {
-    //         axios.delete(`/api/inventory/${item.code}`)
-    //             .then(response => {
-    //                 console.log(`Deleted ${item.code} ${item.name} from inventory.`)
-    //                 dispatch({type: 'DELETE_ITEM', payload: item});
-    //             })
-    //             .catch(error => {
-    //                 console.log(error)
-    //             })
-    //     }
-    // }
+        if (shouldDelete) {
+            //adjusting stock numbers
+            const newStockNums = []; 
+            thisTransaction.purchaseInfo.forEach(lineItem => {
+                const id = lineItem.itemID
+    
+                const foundItem = inventory.find(item => item._id === lineItem.itemID);
+                const existingStock = foundItem.stock
+    
+                const qtyToAdd = lineItem.quantity
+    
+                const newStock = existingStock + qtyToAdd
+    
+                newStockNums.push({id, newStock});
+            });
+            
+            axios.delete(`/api/transaction/${thisTransaction._id}`, {data: {"newStockNums": newStockNums}}) // deletes item in database
+                 .then(() => {
+                    transactionDispatch({type: 'DELETE_TRANSACTION', payload: transactionIndex});
+                    dispatch({type: 'UPDATE_STOCK', payload: newStockNums}) //updates stock client side
+                 })
+                 .catch(error => {
+                     console.log(error)
+                 })
+        }
+    }
 
     return(
         <div className={styles.card}>
@@ -82,7 +98,7 @@ function TransactionCard({transactionIndex}) {
                 </button> 
                 <button
                     className={`btn ${styles.btnSecondary} ${styles.lowerBtn}`}
-                    //onClick= delete transaction function
+                    onClick={deleteTransaction}
                 >
                     <Image src={trashIcon} alt="trash bin icon, delete item"/>
                 </button>

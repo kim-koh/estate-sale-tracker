@@ -5,9 +5,11 @@ import styles from "../../styles/Form.module.css"
 import { useTransactionContext } from "../../hooks/useTransactionContext";
 import LineItemsInput from '../transaction components/nt form components/LineItemsInput'
 import { useNewItemModalContext } from "@/app/hooks/useNewItemModalContext";
+import { useInventoryContext } from "@/app/hooks/useInventoryContext";
 
 function NewTransactionForm() {
     const [error, setError] = useState(null); 
+    const {inventory, dispatch} = useInventoryContext(); 
     const {transactionDispatch} = useTransactionContext(); 
     const {state, modalDispatch} = useNewItemModalContext(); 
     const {openModal, rowIndex, newItem} = state; 
@@ -26,6 +28,20 @@ function NewTransactionForm() {
         if (purchaseInfo[purchaseInfo.length -1].itemID === '') {
             purchaseInfo.pop()
         }
+        const newStockNums = [];                                              
+        purchaseInfo.forEach(lineItem => {
+            const id = lineItem.itemID
+
+            const foundItem = inventory.find(item => item._id === lineItem.itemID);
+            const existingStock = foundItem.stock
+
+            const qtyBought = lineItem.quantity
+
+            const newStock = existingStock - qtyBought
+
+            newStockNums.push({id, newStock});
+        })
+
         const newTransaction = {
             "purchaseInfo": [...purchaseInfo],
             "totalPrice": totalPrice,  
@@ -34,12 +50,18 @@ function NewTransactionForm() {
 
         await axios.post("/api/transaction", newTransaction)
             .then ((response) => {
+                const formattedResponse = {
+                    ...newTransaction,
+                    _id: response.data._id, 
+                    createdAt: response.data.createdAt
+                }
                 setSubmitted(true);
                 setPurchaseInfo([]);
                 setTotalPrice(0);
                 setPaymentForm('Cash');
                 setItemsFinalized(false)
-                transactionDispatch({type: 'CREATE_NEW_TRANSACTION', payload: response.data});
+                transactionDispatch({type: 'CREATE_NEW_TRANSACTION', payload: formattedResponse});
+                dispatch({type: 'UPDATE_STOCK', payload: newStockNums})
                 modalDispatch({type: 'RESET_MODAL'})
             })
             .catch((error) => {
@@ -87,8 +109,7 @@ function NewTransactionForm() {
     }, [openModal, rowIndex, newItem])
 
     function calculateTotalPrice() {
-        let total = 0; 
-        console.log(purchaseInfo)
+        let total = 0;
         purchaseInfo.forEach(lineItem => {
             total = total + parseInt(lineItem.quantity)*parseFloat(lineItem.price); 
         })

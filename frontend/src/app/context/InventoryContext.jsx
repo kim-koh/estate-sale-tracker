@@ -44,8 +44,11 @@ export function inventoryReducer(prevState, action) {
             const newStockInventory = [...prevState.inventory]
             action.payload.forEach(item => {
                 const searchIndex = [...prevState.inventory].findIndex(i => i._id === item.id);
-                newStockInventory[searchIndex].stock = item.newStock
-            })
+                newStockInventory[searchIndex].stock = item.newStock;
+                if (item.newStock === 0) {newStockInventory[searchIndex].saleStatus = "Sold"}
+                if (item.newStock > 0) {newStockInventory[searchIndex].saleStatus = "Available"}
+            });
+            return {inventory: newStockInventory}
         default:
             return prevState; 
     }

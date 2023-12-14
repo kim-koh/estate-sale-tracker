@@ -30,6 +30,11 @@ export function transactionReducer(prevState, action) {
             const searchIndex = updatedTransactions.findIndex((t) => t._id === action.payload._id);
             updatedTransactions[searchIndex] = formattedUpdate; 
             return {transactions: updatedTransactions}
+        case 'DELETE_TRANSACTION':
+            const index = action.payload; 
+            const newTransactions = [...prevState.transactions];
+            newTransactions.splice(index, 1); 
+            return {transactions: newTransactions}
         default:
             return prevState;
     }

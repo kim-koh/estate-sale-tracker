@@ -83,9 +83,45 @@ const editTransaction = async(req, res) => {
 }
 
 //delete transaction
+const deleteTransaction = async(req, res) => {
+    const transactionId = req.params.id
+    const newStockNums = req.body.newStockNums
+    transactionModel.findByIdAndDelete(transactionId)
+        .then(deletedTransaction => {
+            if (!deletedTransaction) {
+                res.status(400).json({error: 'No item with this id in the database'});
+            } else {
+                try {
+                    newStockNums.forEach(x => {
+                        const saleStatus = "Available"
+                        if (x.newStock < 1) {saleStatus = "Sold"}
+                        itemModel.findByIdAndUpdate(x.id, {stock: x.newStock, saleStatus: saleStatus})
+                            .then(response => {
+                                if (!response) {
+                                    res.status(400).json({error: `Stock of item with id ${x.id} failed to update`})
+                                }
+                            })
+                            .catch(err => {
+                                res.status(400).json({error: err.message})
+                            })
+                    })
+                    res.status(200).json(deletedTransaction)
+                }
+                catch (err) {
+                    console.log("error because of the stock update)")
+                    res.status(400).json({error: err.message})
+                }
+            }
+        })
+        .catch(err => {
+            console.log("error with the delete request")
+            res.status(400).json({error:err.message})
+        })
+}
 
 export {
     getAllTransactions,
     createTransaction,
     editTransaction,
+    deleteTransaction
 }
